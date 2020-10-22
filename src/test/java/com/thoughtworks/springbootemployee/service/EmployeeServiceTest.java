@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepositoryLegacy;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -16,7 +16,7 @@ class EmployeeServiceTest {
     @Test
     public void should_return_employees_when_get_all_employee() {
         //given
-        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        EmployeeRepositoryLegacy repository = Mockito.mock(EmployeeRepositoryLegacy.class);
         List<Employee> expectedEmployees = asList(new Employee(), new Employee());
         when(repository.findAll()).thenReturn(expectedEmployees);
         EmployeeService service = new EmployeeService(repository);
@@ -31,7 +31,7 @@ class EmployeeServiceTest {
     @Test
     public void should_create_employee_when_create_given_one_employee() {
         //given
-        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        EmployeeRepositoryLegacy repository = Mockito.mock(EmployeeRepositoryLegacy.class);
         EmployeeService service = new EmployeeService(repository);
         Employee employee = new Employee(1, "Justine", 2, "Male", 2000);
         when(repository.save(employee)).thenReturn(employee);
@@ -46,7 +46,7 @@ class EmployeeServiceTest {
     @Test
     public void should_return_specific_employee_when_get_employee_give_employee_id() {
         //given
-        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        EmployeeRepositoryLegacy repository = Mockito.mock(EmployeeRepositoryLegacy.class);
         EmployeeService service = new EmployeeService(repository);
         Employee employee = new Employee(1, "Justine", 2, "Male", 2000);
         Integer employeeId = employee.getId();
@@ -62,7 +62,7 @@ class EmployeeServiceTest {
     @Test
     void should_return_updated_employee_when_update_employee_given_employee_id_updated_name() {
         //given
-        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        EmployeeRepositoryLegacy repository = Mockito.mock(EmployeeRepositoryLegacy.class);
         EmployeeService service = new EmployeeService(repository);
         Employee employee = new Employee(1, "Justine", 2, "Male", 2000);
         Employee updatedEmployee = new Employee(1, "Bryan", 2, "Male", 2000);
@@ -79,7 +79,7 @@ class EmployeeServiceTest {
     @Test
     void should_delete_employee_when_delete_employee_given_employee_id() {
         //given
-        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        EmployeeRepositoryLegacy repository = Mockito.mock(EmployeeRepositoryLegacy.class);
         EmployeeService service = new EmployeeService(repository);
         Employee employee = new Employee(1, "Justine", 2, "Male", 2000);
         Integer employeeId = employee.getId();
@@ -94,7 +94,7 @@ class EmployeeServiceTest {
     @Test
     public void should_return_employees_when_get_employee_by_gender_given_employee_gender() {
         //given
-        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        EmployeeRepositoryLegacy repository = Mockito.mock(EmployeeRepositoryLegacy.class);
         EmployeeService service = new EmployeeService(repository);
         List<Employee> returnedEmployees = asList(
                 new Employee(1, "Justine", 2, "Male", 2000));
@@ -116,7 +116,7 @@ class EmployeeServiceTest {
     @Test
     public void should_return_2_employee_when_get_by_page_given_2_page_size() {
         //given
-        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        EmployeeRepositoryLegacy repository = Mockito.mock(EmployeeRepositoryLegacy.class);
         EmployeeService service = new EmployeeService(repository);
         List<Employee> returnedEmployees = asList(
                 new Employee(1, "Justine", 2, "Male", 2000),
