@@ -22,7 +22,7 @@ class CompanyServiceTest {
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
         List<Company> expectedCompanies = asList(new Company(), new Company());
         when(repository.findAll()).thenReturn(expectedCompanies);
-        CompanyService service = new CompanyService(repository, employeeRepository);
+        CompanyService service = new CompanyService(repository);
 
         //when
         List<Company> actual = service.getAll();
@@ -35,7 +35,7 @@ class CompanyServiceTest {
     public void should_create_companies_when_create_given_one_companies() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository, employeeRepository);
+        CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
                 2, asList(new Employee(), new Employee()));
         when(repository.save(company)).thenReturn(company);
@@ -51,7 +51,7 @@ class CompanyServiceTest {
     public void should_return_specific_company_when_get_company_give_company_id() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository, employeeRepository);
+        CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
                 2, asList(new Employee(), new Employee()));
         Integer companyId = company.getCompanyId();
@@ -68,7 +68,7 @@ class CompanyServiceTest {
     void should_return_updated_company_when_update_company_given_company_id_updated_name() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository, employeeRepository);
+        CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
                 2, asList(new Employee(), new Employee()));
         Company updatedCompany = new Company(1, "Alibabas",
@@ -88,7 +88,7 @@ class CompanyServiceTest {
     void should_delete_company_when_delete_company_given_company_id() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository, employeeRepository);
+        CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
                 2, asList(new Employee(), new Employee()));
         Integer companyId = company.getCompanyId();
@@ -105,7 +105,7 @@ class CompanyServiceTest {
     public void should_return_2_company_when_get_by_page_given_2_page_size() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository, employeeRepository);
+        CompanyService service = new CompanyService(repository);
         List<Company> returnedCompanies = asList(
                 new Company(1, "Alibaba",
                         2, asList(new Employee(), new Employee())),
@@ -127,10 +127,10 @@ class CompanyServiceTest {
     public void should_return_all_employee_when_get_employees_given_company_id() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository, employeeRepository);
+        CompanyService service = new CompanyService(repository);
         List<Employee> employees = asList(
-                new Employee(1, "Justine", 2, "Male", 2000, 1),
-                new Employee(2, "Lily", 2, "Female", 2000, 1)
+                new Employee(1, "Justine", 2, "Male", 2000),
+                new Employee(2, "Lily", 2, "Female", 2000)
         );
         Company company = new Company(1, "Alibaba",
                 2, employees);
@@ -142,5 +142,4 @@ class CompanyServiceTest {
         //then
         assertEquals(2, actual.size());
     }
-
 }

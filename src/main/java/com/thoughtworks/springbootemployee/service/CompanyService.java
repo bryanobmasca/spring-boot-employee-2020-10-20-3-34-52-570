@@ -14,9 +14,8 @@ public class CompanyService {
     private CompanyRepository companyRepository;
     private EmployeeRepository employeeRepository;
 
-    public CompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository) {
+    public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
-        this.employeeRepository = employeeRepository;
     }
 
     public List<Company> getAll() {

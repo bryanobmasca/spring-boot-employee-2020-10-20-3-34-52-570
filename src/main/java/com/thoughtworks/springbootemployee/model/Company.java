@@ -15,18 +15,15 @@ public class Company {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer companyId;
     private String companyName;
-    private Integer employeesNumber;
     @OneToMany(
             fetch = FetchType.LAZY
     )
     @JoinColumn(columnDefinition = "company_id")
     private List<Employee> employees;
 
-    public Company(Integer companyId, String companyName, Integer employeesNumber, List<Employee> employees) {
-
+    public Company(Integer companyId, String companyName, List<Employee> employees) {
         this.companyId = companyId;
         this.companyName = companyName;
-        this.employeesNumber = employeesNumber;
         this.employees = employees;
     }
 
@@ -43,7 +40,7 @@ public class Company {
     }
 
     public Integer getEmployeesNumber() {
-        return employeesNumber;
+        return getEmployees().size();
     }
 
     public List<Employee> getEmployees() {
