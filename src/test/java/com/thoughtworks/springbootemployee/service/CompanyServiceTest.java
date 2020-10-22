@@ -37,7 +37,7 @@ class CompanyServiceTest {
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
         CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
-                2, asList(new Employee(), new Employee()));
+               asList(new Employee(), new Employee()));
         when(repository.save(company)).thenReturn(company);
 
         //when
@@ -53,7 +53,7 @@ class CompanyServiceTest {
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
         CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
-                2, asList(new Employee(), new Employee()));
+                asList(new Employee(), new Employee()));
         Integer companyId = company.getCompanyId();
         when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
 
@@ -70,9 +70,9 @@ class CompanyServiceTest {
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
         CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
-                2, asList(new Employee(), new Employee()));
+                asList(new Employee(), new Employee()));
         Company updatedCompany = new Company(1, "Alibabas",
-                2, asList(new Employee(), new Employee()));
+                asList(new Employee(), new Employee()));
         Integer companyId = company.getCompanyId();
         when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
         when(repository.save(updatedCompany)).thenReturn(updatedCompany);
@@ -90,7 +90,7 @@ class CompanyServiceTest {
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
         CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
-                2, asList(new Employee(), new Employee()));
+                asList(new Employee(), new Employee()));
         Integer companyId = company.getCompanyId();
         repository.deleteById(companyId);
         //when
@@ -108,9 +108,9 @@ class CompanyServiceTest {
         CompanyService service = new CompanyService(repository);
         List<Company> returnedCompanies = asList(
                 new Company(1, "Alibaba",
-                        2, asList(new Employee(), new Employee())),
+                       asList(new Employee(), new Employee())),
                 new Company(2, "Alibabas",
-                        2, asList(new Employee(), new Employee())));
+                       asList(new Employee(), new Employee())));
 
         Integer page = 1;
         Integer pageSize = 2;
@@ -133,7 +133,7 @@ class CompanyServiceTest {
                 new Employee(2, "Lily", 2, "Female", 2000)
         );
         Company company = new Company(1, "Alibaba",
-                2, employees);
+                employees);
         Integer companyID = company.getCompanyId();
 
         when(repository.findById(companyID)).thenReturn(java.util.Optional.of(company));
