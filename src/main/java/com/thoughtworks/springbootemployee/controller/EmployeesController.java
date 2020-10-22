@@ -12,10 +12,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/employees")
 public class EmployeesController {
-    private EmployeeService employeeService = new EmployeeService(new EmployeeRepository());
 
-    public EmployeesController() {
-    }
+    private EmployeeService employeeService;
 
     public EmployeesController(EmployeeService employeeService) {
         this.employeeService = employeeService;
