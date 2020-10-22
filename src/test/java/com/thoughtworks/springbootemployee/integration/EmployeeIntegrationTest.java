@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.integration;
 import com.jayway.jsonpath.JsonPath;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -82,5 +85,30 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].age").value(25))
                 .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[0].salary").value(40000000));
+    }
+    
+    @Test
+    public void should_update_employee_when_update_given_employee() throws Exception {
+        //given
+        Employee employee = new Employee(1, "Bryan", 2, "male", 20);
+        Employee createdEmployee = employeeRepository.save(employee);
+        String updatedEmployee = "{\n" +
+                "    \"id\" : 1,\n" +
+                "    \"name\" : \"Watery\",\n" +
+                "    \"age\" : 25,\n" +
+                "    \"gender\" : \"female\",\n" +
+                "    \"salary\" : 9000\n" +
+                "}";
+
+        //when then
+        mockMvc.perform(put("/employees/" + createdEmployee.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updatedEmployee))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(createdEmployee.getId()))
+                .andExpect(jsonPath("$.name").value("Watery"))
+                .andExpect(jsonPath("$.age").value(25))
+                .andExpect(jsonPath("$.gender").value("female"))
+                .andExpect(jsonPath("$.salary").value(9000));
     }
 }
