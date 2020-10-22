@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.integration;
 import com.jayway.jsonpath.JsonPath;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,6 +24,11 @@ public class EmployeeIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @AfterEach
+    void tearDown(){
+        employeeRepository.deleteAll();
+    }
 
     @Test
     public void should_get_all_employees_when_get_all() throws Exception {
@@ -60,5 +66,21 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value(25))
                 .andExpect(jsonPath("$.gender").value("female"))
                 .andExpect(jsonPath("$.salary").value(9000));
+    }
+
+    @Test
+    public void should_return_specific_employee_when_get_by_id_given_employee_id() throws Exception {
+        //given
+        Employee employee = new Employee(2, "Vance", 25, "male", 40000000);
+        Employee createdEmployee = employeeRepository.save(employee);
+
+        //when then
+        mockMvc.perform(get("/employees/", createdEmployee.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").isNumber())
+                .andExpect(jsonPath("$[0].name").value("Vance"))
+                .andExpect(jsonPath("$[0].age").value(25))
+                .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[0].salary").value(40000000));
     }
 }
