@@ -5,6 +5,9 @@ import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ class CompanyServiceTest {
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
         List<Company> expectedCompanies = asList(new Company(), new Company());
         when(repository.findAll()).thenReturn(expectedCompanies);
-        CompanyService service = new CompanyService(repository);
+        CompanyService service = new CompanyService(repository, employeeRepository);
 
         //when
         List<Company> actual = service.getAll();
@@ -32,7 +35,7 @@ class CompanyServiceTest {
     public void should_create_companies_when_create_given_one_companies() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository);
+        CompanyService service = new CompanyService(repository, employeeRepository);
         Company company = new Company(1, "Alibaba",
                 2, asList(new Employee(), new Employee()));
         when(repository.save(company)).thenReturn(company);
@@ -48,11 +51,11 @@ class CompanyServiceTest {
     public void should_return_specific_company_when_get_company_give_company_id() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository);
+        CompanyService service = new CompanyService(repository, employeeRepository);
         Company company = new Company(1, "Alibaba",
                 2, asList(new Employee(), new Employee()));
         Integer companyId = company.getCompanyId();
-        when(repository.getById(companyId)).thenReturn(company);
+        when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
 
         //when
         Company actual = service.getById(companyId);
@@ -65,13 +68,14 @@ class CompanyServiceTest {
     void should_return_updated_company_when_update_company_given_company_id_updated_name() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository);
+        CompanyService service = new CompanyService(repository, employeeRepository);
         Company company = new Company(1, "Alibaba",
                 2, asList(new Employee(), new Employee()));
         Company updatedCompany = new Company(1, "Alibabas",
                 2, asList(new Employee(), new Employee()));
         Integer companyId = company.getCompanyId();
-        when(repository.update(companyId, updatedCompany)).thenReturn(updatedCompany);
+        when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
+        when(repository.save(updatedCompany)).thenReturn(updatedCompany);
 
         //when
         Company actual = service.update(companyId, updatedCompany);
@@ -84,26 +88,24 @@ class CompanyServiceTest {
     void should_delete_company_when_delete_company_given_company_id() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository);
+        CompanyService service = new CompanyService(repository, employeeRepository);
         Company company = new Company(1, "Alibaba",
                 2, asList(new Employee(), new Employee()));
-        Company expectedCompany = new Company(1, "Alibaba",
-                2, asList());
         Integer companyId = company.getCompanyId();
-        when(repository.remove(companyId)).thenReturn(expectedCompany);
+        repository.deleteById(companyId);
         //when
         Company actualCompany = service.remove(companyId);
 
         //then
-        Mockito.verify(repository, Mockito.times(1)).remove(companyId);
-        assertEquals(expectedCompany, actualCompany);
+        Mockito.verify(repository, Mockito.times(1)).deleteById(companyId);
+        assertEquals(null, actualCompany);
     }
 
     @Test
     public void should_return_2_company_when_get_by_page_given_2_page_size() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository);
+        CompanyService service = new CompanyService(repository, employeeRepository);
         List<Company> returnedCompanies = asList(
                 new Company(1, "Alibaba",
                         2, asList(new Employee(), new Employee())),
@@ -112,7 +114,9 @@ class CompanyServiceTest {
 
         Integer page = 1;
         Integer pageSize = 2;
-        when(repository.getByPage(page, pageSize)).thenReturn(returnedCompanies);
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        Page<Company> company = new PageImpl<>(returnedCompanies);
+        when(repository.findAll(pageRequest)).thenReturn(company);
         //when
         List<Company> actual = service.getByPage(page, pageSize);
         //then
@@ -123,16 +127,16 @@ class CompanyServiceTest {
     public void should_return_all_employee_when_get_employees_given_company_id() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository);
+        CompanyService service = new CompanyService(repository, employeeRepository);
         List<Employee> employees = asList(
-                new Employee(1, "Justine", 2, "Male", 2000),
-                new Employee(2, "Lily", 2, "Female", 2000)
+                new Employee(1, "Justine", 2, "Male", 2000, 1),
+                new Employee(2, "Lily", 2, "Female", 2000, 1)
         );
         Company company = new Company(1, "Alibaba",
                 2, employees);
         Integer companyID = company.getCompanyId();
 
-        when(repository.getCompanyEmployees(companyID)).thenReturn(employees);
+        when(repository.findById(companyID)).thenReturn(java.util.Optional.of(company));
         //when
         List<Employee> actual = service.getCompanyEmployees(companyID);
         //then

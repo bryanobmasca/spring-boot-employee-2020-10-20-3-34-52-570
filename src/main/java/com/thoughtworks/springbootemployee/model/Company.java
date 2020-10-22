@@ -1,11 +1,26 @@
 package com.thoughtworks.springbootemployee.model;
 
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import java.util.List;
 
+@Entity
 public class Company {
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer companyId;
     private String companyName;
     private Integer employeesNumber;
+    @OneToMany(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(columnDefinition = "company_id")
     private List<Employee> employees;
 
     public Company(Integer companyId, String companyName, Integer employeesNumber, List<Employee> employees) {
@@ -34,5 +49,9 @@ public class Company {
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+
+    public void setId(Integer companyId) {
+        this.companyId = companyId;
     }
 }

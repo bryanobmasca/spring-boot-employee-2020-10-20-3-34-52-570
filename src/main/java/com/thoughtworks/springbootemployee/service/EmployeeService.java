@@ -32,6 +32,7 @@ public class EmployeeService {
     public Employee update(Integer employeeId, Employee updatedEmployee) {
         Employee employee = repository.findById(employeeId).orElse(null);
         if (employee != null){
+            updatedEmployee.setId(employeeId);
             return repository.save(updatedEmployee);
         }
         else {

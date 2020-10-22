@@ -3,43 +3,63 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CompanyService {
-    private CompanyRepository repository;
+    private CompanyRepository companyRepository;
+    private EmployeeRepository employeeRepository;
 
-    public CompanyService(CompanyRepository repository) {
-        this.repository = repository;
+    public CompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository) {
+        this.companyRepository = companyRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     public List<Company> getAll() {
-        return repository.findAll();
+        return companyRepository.findAll();
     }
 
     public Company create(Company company) {
-        return repository.save(company);
+        return companyRepository.save(company);
     }
 
     public Company getById(Integer companyId) {
-        return repository.getById(companyId);
+        return companyRepository.findById(companyId).orElse(null);
     }
 
     public Company update(Integer companyId, Company updatedCompany) {
-        return repository.update(companyId, updatedCompany);
+        Company company = companyRepository.findById(companyId).orElse(null);
+        if (company != null) {
+            updatedCompany.setId(companyId);
+            return companyRepository.save(updatedCompany);
+        } else {
+            return null;
+        }
     }
 
     public Company remove(Integer companyId) {
-        return repository.remove(companyId);
+        companyRepository.findById(companyId).map(company -> {
+            company.getEmployees().forEach(employee -> {
+                employee.setCompanyId(null);
+                employeeRepository.save(employee);
+            });
+            company.getEmployees().clear();
+            companyRepository.save(company);
+            return company;
+        });
+        return null;
     }
 
     public List<Company> getByPage(Integer page, Integer pageSize) {
-        return repository.getByPage(page, pageSize);
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        return companyRepository.findAll(pageRequest).toList();
     }
 
     public List<Employee> getCompanyEmployees(Integer companyID) {
-        return repository.getCompanyEmployees(companyID);
+        return companyRepository.findById(companyID).map(Company::getEmployees).orElse(null);
     }
 }

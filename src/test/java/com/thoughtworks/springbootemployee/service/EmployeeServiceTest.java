@@ -37,7 +37,7 @@ class EmployeeServiceTest {
         //given
         EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
         EmployeeService service = new EmployeeService(repository);
-        Employee employee = new Employee(1, "Justine", 2, "Male", 2000);
+        Employee employee = new Employee(1, "Justine", 2, "Male", 2000,null);
         when(repository.save(employee)).thenReturn(employee);
 
         //when
@@ -52,7 +52,7 @@ class EmployeeServiceTest {
         //given
         EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
         EmployeeService service = new EmployeeService(repository);
-        Employee employee = new Employee(1, "Justine", 2, "Male", 2000);
+        Employee employee = new Employee(1, "Justine", 2, "Male", 2000,null);
         Integer employeeId = employee.getId();
         when(repository.findById(employeeId)).thenReturn(java.util.Optional.of(employee));
 
@@ -68,8 +68,8 @@ class EmployeeServiceTest {
         //given
         EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
         EmployeeService service = new EmployeeService(repository);
-        Employee employee = new Employee(1, "Justine", 2, "Male", 2000);
-        Employee updatedEmployee = new Employee(1, "Bryan", 2, "Male", 2000);
+        Employee employee = new Employee(1, "Justine", 2, "Male", 2000,null);
+        Employee updatedEmployee = new Employee(1, "Bryan", 2, "Male", 2000,null);
         Integer employeeId = employee.getId();
         when(repository.findById(employeeId)).thenReturn(java.util.Optional.of(employee));
         when(repository.save(updatedEmployee)).thenReturn(updatedEmployee);
@@ -87,7 +87,7 @@ class EmployeeServiceTest {
         //given
         EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
         EmployeeService service = new EmployeeService(repository);
-        Employee employee = new Employee(1, "Justine", 2, "Male", 2000);
+        Employee employee = new Employee(1, "Justine", 2, "Male", 2000,null);
         Integer employeeId = employee.getId();
         when(repository.findById(employeeId)).thenReturn(java.util.Optional.of(employee));
 
@@ -104,10 +104,10 @@ class EmployeeServiceTest {
         EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
         EmployeeService service = new EmployeeService(repository);
         List<Employee> returnedEmployees = asList(
-                new Employee(1, "Justine", 2, "Male", 2000));
+                new Employee(1, "Justine", 2, "Male", 2000,null));
 
-        Employee employee = new Employee(1, "Justine", 2, "Male", 2000);
-        Employee employee2 = new Employee(2, "Lily", 2, "Female", 2000);
+        Employee employee = new Employee(1, "Justine", 2, "Male", 2000,null);
+        Employee employee2 = new Employee(2, "Lily", 2, "Female", 2000,null);
         when(repository.save(employee)).thenReturn(employee);
         when(repository.save(employee)).thenReturn(employee2);
         String employeeGender = "male";
@@ -126,8 +126,8 @@ class EmployeeServiceTest {
         EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
         EmployeeService service = new EmployeeService(repository);
         List<Employee> returnedEmployees = asList(
-                new Employee(1, "Justine", 2, "Male", 2000),
-                new Employee(2, "Lily", 2, "Female", 2000));
+                new Employee(1, "Justine", 2, "Male", 2000,null),
+                new Employee(2, "Lily", 2, "Female", 2000,null));
 
         Integer page = 1;
         Integer pageSize = 2;
