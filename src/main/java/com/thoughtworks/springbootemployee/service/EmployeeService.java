@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepositoryLegacy;
@@ -26,7 +27,7 @@ public class EmployeeService {
     }
 
     public Employee getById(Integer employeeId) {
-        return repository.findById(employeeId).orElse(null);
+        return repository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException("Employee Id not found"));
     }
 
     public Employee update(Integer employeeId, Employee updatedEmployee) {
@@ -35,9 +36,7 @@ public class EmployeeService {
             updatedEmployee.setId(employeeId);
             return repository.save(updatedEmployee);
         }
-        else {
-            return null;
-        }
+        throw new EmployeeNotFoundException("Employee Id not found");
     }
 
     public void remove(Integer employeeId) {
