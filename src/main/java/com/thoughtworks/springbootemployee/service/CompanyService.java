@@ -44,7 +44,7 @@ public class CompanyService {
     public Company remove(Integer companyId) {
         companyRepository.findById(companyId).map(company -> {
             company.getEmployees().forEach(employee -> {
-                employee.setCompanyId(null);
+//                employee.setCompanyId(null);
                 employeeRepository.save(employee);
             });
             company.getEmployees().clear();

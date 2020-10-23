@@ -1,37 +1,24 @@
-package com.thoughtworks.springbootemployee.model;
+package com.thoughtworks.springbootemployee.dto;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
-public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class EmployeeResponse {
     private Integer id;
     private String name;
     private Integer age;
     private String gender;
     private Integer salary;
 
-    public Employee() {
+    public EmployeeResponse() {
     }
 
-    public Employee(Integer id, String name, Integer age, String gender, Integer salary) {
+    public EmployeeResponse(Integer id, String name, int age, String gender, int salary) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
-    }
-
-    public Employee(String name, int age, String gender, int salary) {
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.salary = salary;
-
     }
 
     public Integer getId() {
