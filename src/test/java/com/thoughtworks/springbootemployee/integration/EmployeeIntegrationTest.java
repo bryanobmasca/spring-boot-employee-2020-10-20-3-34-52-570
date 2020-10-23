@@ -29,16 +29,17 @@ public class EmployeeIntegrationTest {
         employeeRepository.deleteAll();
     }
 
+
     @Test
     public void should_get_all_employees_when_get_all() throws Exception {
         //given
         Employee employee = new Employee(1, "Bryan", 2, "male", 20);
         employeeRepository.save(employee);
-
+        Integer employeeId = employee.getId();
         //when then
         mockMvc.perform(get("/employees"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").isNumber())
+                .andExpect(jsonPath("$[0].id").value(employeeId))
                 .andExpect(jsonPath("$[0].name").value("Bryan"))
                 .andExpect(jsonPath("$[0].age").value(2))
                 .andExpect(jsonPath("$[0].gender").value("male"))
@@ -72,9 +73,9 @@ public class EmployeeIntegrationTest {
         //given
         Employee employee = new Employee(2, "Vance", 25, "male", 40000000);
         Employee createdEmployee = employeeRepository.save(employee);
-
+        Integer employeeId = createdEmployee.getId();
         //when then
-        mockMvc.perform(get("/employees/", createdEmployee.getId()))
+        mockMvc.perform(get("/employees/", employeeId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].name").value("Vance"))
@@ -86,8 +87,9 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_update_employee_when_update_given_employee() throws Exception {
         //given
-        Employee employee = new Employee(1, "Bryan", 2, "male", 20);
+        Employee employee = new Employee(1,"Bryan", 2, "male", 20);
         Employee createdEmployee = employeeRepository.save(employee);
+        Integer employeeId = createdEmployee.getId();
         String updatedEmployee = "{\n" +
                 "    \"id\" : 1,\n" +
                 "    \"name\" : \"Watery\",\n" +
@@ -97,11 +99,11 @@ public class EmployeeIntegrationTest {
                 "}";
 
         //when then
-        mockMvc.perform(put("/employees/" + createdEmployee.getId())
+        mockMvc.perform(put("/employees/" + employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(updatedEmployee))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(createdEmployee.getId()))
+                .andExpect(jsonPath("$.id").value(employeeId))
                 .andExpect(jsonPath("$.name").value("Watery"))
                 .andExpect(jsonPath("$.age").value(25))
                 .andExpect(jsonPath("$.gender").value("female"))
@@ -113,9 +115,10 @@ public class EmployeeIntegrationTest {
         //given
         Employee employee = new Employee(2, "Vance", 25, "male", 40000000);
         Employee createdEmployee = employeeRepository.save(employee);
+        Integer employeeId = createdEmployee.getId();
 
         // when
-        mockMvc.perform(delete("/employees/" + createdEmployee.getId()))
+        mockMvc.perform(delete("/employees/" + employeeId))
                 .andExpect(status().isOk());
 
         // then
