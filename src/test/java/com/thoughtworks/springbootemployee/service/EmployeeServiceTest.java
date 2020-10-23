@@ -157,6 +157,23 @@ class EmployeeServiceTest {
         //then
         Exception exception = assertThrows(EmployeeNotFoundException.class,executable);
         assertEquals("Employee Id not found", exception.getMessage());
+    }
+
+    @Test
+    public void should_throw_exception_when_update_given_wrong_id() {
+        //given
+        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(repository);
+        Employee employee = new Employee(1, "Justin", 2, "male" , 2000);
+        Employee updatedEmployee = new Employee(1, "Mark", 3, "male" , 2000);
+        Integer employeeId = employee.getId();
+        when(repository.findById(employeeId)).thenReturn(java.util.Optional.empty());
+//        when(repository.save(updatedEmployee)).thenReturn(updatedEmployee);
+        //when
+        Executable executable = () -> employeeService.getById(employeeId);
+        //then
+        Exception exception = assertThrows(EmployeeNotFoundException.class,executable);
+        assertEquals("Employee Id not found", exception.getMessage());
 
     }
 }
