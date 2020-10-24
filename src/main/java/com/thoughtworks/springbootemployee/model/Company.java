@@ -31,6 +31,11 @@ public class Company {
 
     }
 
+    public Company(String companyName, List<Employee> employees) {
+        this.companyName = companyName;
+        this.employees = employees;
+    }
+
     public Integer getCompanyId() {
         return companyId;
     }

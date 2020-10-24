@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
+
 import static java.util.Arrays.asList;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -38,13 +40,14 @@ public class CompanyIntegrationTest {
     @Test
     public void should_return_all_companies_when_get_all() throws Exception {
         //given
-        Company company = new Company(1, "OOCL", null);
+        Company company = new Company("OOCL", Collections.EMPTY_LIST);
         companyRepository.save(company);
         //when then
         mockMvc.perform(get("/companies"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].companyId").value(company.getCompanyId()))
-                .andExpect(jsonPath("$[0].companyName").value(company.getCompanyName()));
+                .andExpect(jsonPath("$[0].companyName").value(company.getCompanyName()))
+                .andExpect(jsonPath("$[0].employees").isEmpty());
     }
 }
 
