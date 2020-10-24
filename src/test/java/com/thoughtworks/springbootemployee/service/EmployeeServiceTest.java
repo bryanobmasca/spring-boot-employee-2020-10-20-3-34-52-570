@@ -168,7 +168,7 @@ class EmployeeServiceTest {
         Employee updatedEmployee = new Employee(1, "Mark", 3, "male" , 2000);
         Integer employeeId = employee.getId();
         when(repository.findById(employeeId)).thenReturn(java.util.Optional.empty());
-//        when(repository.save(updatedEmployee)).thenReturn(updatedEmployee);
+        when(repository.save(updatedEmployee)).thenReturn(updatedEmployee);
         //when
         Executable executable = () -> employeeService.getById(employeeId);
         //then

@@ -204,16 +204,26 @@ public class EmployeeIntegrationTest {
                 .andReturn();
     }
 
-//    @Test
-//    void should_return_exception_message_when_update_given_not_existing_id() throws Exception {
-//        //given
-//        // when then
-//        mockMvc.perform(put("/employees/{employeeId}", 12))
-//                .andExpect(status().isNotFound())
-//                .andExpect(jsonPath("$.message").value("Employee Id not found"))
-//                .andExpect(jsonPath("$.status").value("404 NOT_FOUND"))
-//                .andReturn();
-//    }
+    @Test
+    void should_return_exception_message_when_update_given_not_existing_id() throws Exception {
+        Employee employee = new Employee(1,"Bryan", 2, "male", 20);
+        employeeRepository.save(employee);
+        String updatedEmployee = "{\n" +
+                "    \"id\" : 1,\n" +
+                "    \"name\" : \"Watery\",\n" +
+                "    \"age\" : 25,\n" +
+                "    \"gender\" : \"female\",\n" +
+                "    \"salary\" : 9000\n" +
+                "}";
+
+        //when then
+        mockMvc.perform(put("/employees/" + 2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updatedEmployee))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Employee Id not found"))
+                .andExpect(jsonPath("$.status").value("404 NOT_FOUND"));
+    }
 
     @Test
     void should_return_exception_message_when_delete_given_not_existing_id() throws Exception {
@@ -222,8 +232,7 @@ public class EmployeeIntegrationTest {
         mockMvc.perform(delete("/employees/{employeeId}", 12))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Employee Id not found"))
-                .andExpect(jsonPath("$.status").value("404 NOT_FOUND"))
-                .andReturn();
+                .andExpect(jsonPath("$.status").value("404 NOT_FOUND"));
     }
 
 
