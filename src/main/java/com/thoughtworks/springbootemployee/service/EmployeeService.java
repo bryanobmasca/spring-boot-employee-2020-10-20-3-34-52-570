@@ -37,8 +37,16 @@ public class EmployeeService {
         throw new EmployeeNotFoundException("Employee Id not found");
     }
 
+//    public void remove(Integer employeeId) {
+//        repository.findById(employeeId).ifPresent(repository::delete);
+//    }
+
     public void remove(Integer employeeId) {
-        repository.findById(employeeId).ifPresent(repository::delete);
+        Employee employee = repository.findById(employeeId).orElse(null);
+        if(employee == null){
+            throw new EmployeeNotFoundException("Employee Id not found");
+        }
+        repository.delete(employee);
     }
 
     public List<Employee> getByGender(String employeeGender) {
