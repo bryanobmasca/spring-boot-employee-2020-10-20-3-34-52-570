@@ -31,7 +31,6 @@ public class Employee {
         this.age = age;
         this.gender = gender;
         this.salary = salary;
-
     }
 
     public Integer getId() {

@@ -34,8 +34,7 @@ public class EmployeeIntegrationTest {
     public void should_get_all_employees_when_get_all() throws Exception {
         //given
         Employee employee = new Employee(1, "Bryan", 2, "male", 20);
-        employeeRepository.save(employee);
-        Integer employeeId = employee.getId();
+        Integer employeeId = employeeRepository.save(employee).getId();
         //when then
         mockMvc.perform(get("/employees"))
                 .andExpect(status().isOk())
@@ -132,14 +131,14 @@ public class EmployeeIntegrationTest {
         Employee employee2 = new Employee(2, "Vance", 25, "male", 40000000);
         Employee employee3 = new Employee(3, "WaterLily", 16, "female", 500);
 
-        employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
-        employeeRepository.save(employee3);
+        Integer employeeId1 = employeeRepository.save(employee1).getId();
+        Integer employeeId2 = employeeRepository.save(employee2).getId();
+        Integer employeeId3 = employeeRepository.save(employee3).getId();
 
         //when then
         mockMvc.perform(get("/employees?gender=female"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(employee3.getId()))
+                .andExpect(jsonPath("$[0].id").value(employeeId3))
                 .andExpect(jsonPath("$[0].name").value(employee3.getName()))
                 .andExpect(jsonPath("$[0].age").value(employee3.getAge()))
                 .andExpect(jsonPath("$[0].gender").value(employee3.getGender()))
@@ -147,12 +146,12 @@ public class EmployeeIntegrationTest {
 
         mockMvc.perform(get("/employees?gender=male"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(employee1.getId()))
+                .andExpect(jsonPath("$[0].id").value(employeeId1))
                 .andExpect(jsonPath("$[0].name").value(employee1.getName()))
                 .andExpect(jsonPath("$[0].age").value(employee1.getAge()))
                 .andExpect(jsonPath("$[0].gender").value(employee1.getGender()))
                 .andExpect(jsonPath("$[0].salary").value(employee1.getSalary()))
-                .andExpect(jsonPath("$[1].id").value(employee2.getId()))
+                .andExpect(jsonPath("$[1].id").value(employeeId2))
                 .andExpect(jsonPath("$[1].name").value(employee2.getName()))
                 .andExpect(jsonPath("$[1].age").value(employee2.getAge()))
                 .andExpect(jsonPath("$[1].gender").value(employee2.getGender()))
@@ -166,19 +165,19 @@ public class EmployeeIntegrationTest {
         Employee employee2 = new Employee(2, "Vance", 25, "male", 40000000);
         Employee employee3 = new Employee(3, "WaterLily", 16, "female", 500);
 
-        employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
-        employeeRepository.save(employee3);
+        Integer employeeId1 = employeeRepository.save(employee1).getId();
+        Integer employeeId2 = employeeRepository.save(employee2).getId();
+        Integer employeeId3 = employeeRepository.save(employee3).getId();
 
         //when then
         mockMvc.perform(get("/employees?page=0&pageSize=2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(employee1.getId()))
+                .andExpect(jsonPath("$[0].id").value(employeeId1))
                 .andExpect(jsonPath("$[0].name").value(employee1.getName()))
                 .andExpect(jsonPath("$[0].age").value(employee1.getAge()))
                 .andExpect(jsonPath("$[0].gender").value(employee1.getGender()))
                 .andExpect(jsonPath("$[0].salary").value(employee1.getSalary()))
-                .andExpect(jsonPath("$[1].id").value(employee2.getId()))
+                .andExpect(jsonPath("$[1].id").value(employeeId2))
                 .andExpect(jsonPath("$[1].name").value(employee2.getName()))
                 .andExpect(jsonPath("$[1].age").value(employee2.getAge()))
                 .andExpect(jsonPath("$[1].gender").value(employee2.getGender()))
@@ -186,7 +185,7 @@ public class EmployeeIntegrationTest {
 
         mockMvc.perform(get("/employees?page=1&pageSize=2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(employee3.getId()))
+                .andExpect(jsonPath("$[0].id").value(employeeId3))
                 .andExpect(jsonPath("$[0].name").value(employee3.getName()))
                 .andExpect(jsonPath("$[0].age").value(employee3.getAge()))
                 .andExpect(jsonPath("$[0].gender").value(employee3.getGender()))
