@@ -43,4 +43,28 @@ public class EmployeeResponse {
     public void setCompany_id(Integer company_id) {
         this.company_id = company_id;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public Integer getCompany_id() {
+        return company_id;
+    }
 }

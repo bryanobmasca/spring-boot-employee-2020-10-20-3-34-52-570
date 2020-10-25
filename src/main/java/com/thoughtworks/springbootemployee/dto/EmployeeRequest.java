@@ -37,4 +37,24 @@ public class EmployeeRequest {
     public Integer getCompany_id() {
         return company_id;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
+    }
+
+    public void setCompany_id(Integer company_id) {
+        this.company_id = company_id;
+    }
 }
