@@ -7,7 +7,7 @@ import java.util.List;
 public class Company {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Integer companyId;
+    private Integer id;
     private String companyName;
     @OneToMany(
             fetch = FetchType.LAZY, cascade = CascadeType.PERSIST
@@ -15,8 +15,8 @@ public class Company {
     @JoinColumn(name = "company_id")
     private List<Employee> employees;
 
-    public Company(Integer companyId, String companyName, List<Employee> employees) {
-        this.companyId = companyId;
+    public Company(Integer id, String companyName, List<Employee> employees) {
+        this.id = id;
         this.companyName = companyName;
         this.employees = employees;
     }
@@ -30,8 +30,8 @@ public class Company {
         this.employees = employees;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
+    public Integer getId() {
+        return id;
     }
 
     public String getCompanyName() {
@@ -46,8 +46,8 @@ public class Company {
         return employees;
     }
 
-    public void setId(Integer companyId) {
-        this.companyId = companyId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setEmployees(List<Employee> employees) {
