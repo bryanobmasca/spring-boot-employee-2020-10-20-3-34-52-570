@@ -53,13 +53,17 @@ public class CompanyIntegrationTest {
     @Test
     public void should_return_company_when_post() throws Exception {
         //given
-        String stringAsJson = "    \"companyName\":\"OOCL\",\n" +
-                "    \"employees\":[{\n" +
-                "        \"name\":\"test\",\n" +
-                "        \"age\":23,\n" +
-                "        \"gender\":\"male\",\n" +
-                "        \"salary\":24555\n" +
-                "    }]";
+        String stringAsJson = "{\n" +
+                "    \"companyName\" : \"OOCL\",\n" +
+                "    \"employees\" : [\n" +
+                "        {\n" +
+                "            \"name\" : \"test\",\n" +
+                "            \"age\" : 23,\n" +
+                "            \"gender\" : \"male\",\n" +
+                "            \"salary\" : 24555\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
         //when then
         mockMvc.perform(post("/companies")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -72,7 +76,7 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$.employees[0].age").value(23))
                 .andExpect(jsonPath("$.employees[0].gender").value("male"))
                 .andExpect(jsonPath("$.employees[0].salary").value(24555))
-                .andExpect(jsonPath("$.employeesNumber").value(1));
+                .andExpect(jsonPath("$.employeeNumber").value(1));
     }
 
     @Test
