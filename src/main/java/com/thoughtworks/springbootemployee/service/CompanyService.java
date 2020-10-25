@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 @Service
 public class CompanyService {
     private CompanyRepository companyRepository;
@@ -43,7 +45,7 @@ public class CompanyService {
     public Company remove(Integer companyId) {
         return companyRepository.findById(companyId)
                 .map(company -> {
-                    company.setEmployees(null);
+                    company.setEmployees(asList());
                     companyRepository.save(company);
 
                     return company;

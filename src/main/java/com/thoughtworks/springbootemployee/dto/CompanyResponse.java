@@ -18,6 +18,15 @@ public class CompanyResponse {
         this.employees = employees;
     }
 
+    public CompanyResponse(String companyName, List<Employee> employees) {
+        this.companyName = companyName;
+        this.employees = employees;
+    }
+
+    public CompanyResponse(String companyName) {
+        this.companyName = companyName;
+    }
+
     public String getCompanyName() {
         return companyName;
     }
@@ -27,7 +36,12 @@ public class CompanyResponse {
     }
 
     public int getEmployeeNumber() {
-        return getEmployees().size();
+        if (getEmployees() != null){
+            return getEmployees().size();
+        }
+        else{
+            return 0;
+        }
     }
 
     public void setEmployeeNumber(int employeeNumber) {

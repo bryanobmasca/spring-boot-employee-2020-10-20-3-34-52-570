@@ -8,6 +8,13 @@ public class CompanyRequest {
     private String companyName;
     private List<Employee> employees;
 
+    public CompanyRequest() {
+    }
+
+    public CompanyRequest(String companyName) {
+        this.companyName = companyName;
+    }
+
     public CompanyRequest(String companyName, List<Employee> employees) {
         this.companyName = companyName;
         this.employees = employees;

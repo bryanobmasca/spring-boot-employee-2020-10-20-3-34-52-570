@@ -21,13 +21,13 @@ public class Company {
         this.employees = employees;
     }
 
-    public Company() {
-
-    }
-
     public Company(String companyName, List<Employee> employees) {
         this.companyName = companyName;
         this.employees = employees;
+    }
+
+    public Company() {
+
     }
 
     public Company(String companyName) {
@@ -42,9 +42,9 @@ public class Company {
         return companyName;
     }
 
-//    public Integer getEmployeesNumber() {
-//        return getEmployees().size();
-//    }
+    public Integer getEmployeesNumber() {
+        return getEmployees().size();
+    }
 
     public List<Employee> getEmployees() {
         return employees;
@@ -56,5 +56,9 @@ public class Company {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }
