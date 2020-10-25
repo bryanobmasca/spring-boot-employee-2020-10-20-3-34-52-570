@@ -96,7 +96,7 @@ class EmployeeServiceTest {
         when(repository.findById(employeeId)).thenReturn(java.util.Optional.of(employee));
 
         //when
-        service.remove(employeeId);
+        service.deleteById(employeeId);
 
         //then
         Mockito.verify(repository, Mockito.times(1)).delete(employee);
@@ -174,6 +174,20 @@ class EmployeeServiceTest {
         //then
         Exception exception = assertThrows(EmployeeNotFoundException.class,executable);
         assertEquals("Employee Id not found", exception.getMessage());
+    }
 
+    @Test
+    public void should_throw_exception_when_remove_given_wrong_id() {
+        //given
+        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(repository);
+        Employee employee = new Employee(1, "Justin", 2, "male" , 2000);
+        Integer employeeId = employee.getId();
+        repository.deleteById(employeeId);
+        //when
+        Executable executable = () -> employeeService.deleteById(employeeId);
+        //then
+        Exception exception = assertThrows(EmployeeNotFoundException.class,executable);
+        assertEquals("Employee Id not found", exception.getMessage());
     }
 }

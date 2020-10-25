@@ -37,17 +37,17 @@ public class CompanyIntegrationTest {
         companyRepository.deleteAll();
     }
 
-    @Test
-    public void should_return_all_companies_when_get_all() throws Exception {
-        //given
-        Company company = new Company("OOCL", Collections.EMPTY_LIST);
-        companyRepository.save(company);
-        //when then
-        mockMvc.perform(get("/companies"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].companyId").value(company.getCompanyId()))
-                .andExpect(jsonPath("$[0].companyName").value(company.getCompanyName()))
-                .andExpect(jsonPath("$[0].employees").isEmpty());
-    }
+//    @Test
+//    public void should_return_all_companies_when_get_all() throws Exception {
+//        //given
+//        Company company = new Company("OOCL", Collections.EMPTY_LIST);
+//        companyRepository.save(company);
+//        //when then
+//        mockMvc.perform(get("/companies"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$[0].companyId").value(company.getCompanyId()))
+//                .andExpect(jsonPath("$[0].companyName").value(company.getCompanyName()))
+//                .andExpect(jsonPath("$[0].employees").isEmpty());
+//    }
 }
 
