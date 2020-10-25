@@ -53,7 +53,7 @@ public class CompanyService {
         Company company = companyRepository.findById(companyId).orElse(null);
         if (company != null) {
             for (Employee employee : company.getEmployees()) {
-                employee.setCompanyId(null);
+                employee.setCompany_id(null);
                 employeeRepository.save(employee);
             }
             company.setEmployees(null);

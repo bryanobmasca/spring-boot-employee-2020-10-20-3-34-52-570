@@ -16,6 +16,7 @@ public class EmployeeMapper {
         employeeResponse.setAge(employee.getAge());
         employeeResponse.setGender(employee.getGender());
         employeeResponse.setSalary(employee.getSalary());
+        employeeResponse.setCompany_id(employee.getCompany_id());
 
         return employeeResponse;
     }
@@ -27,7 +28,7 @@ public class EmployeeMapper {
         employee.setAge(employeeRequest.getAge());
         employee.setGender(employeeRequest.getGender());
         employee.setSalary(employeeRequest.getSalary());
-        employee.setCompanyId(employeeRequest.getCompanyId());
+        employee.setCompany_id(employeeRequest.getCompany_id());
 
         return employee;
     }

@@ -1,24 +1,21 @@
 package com.thoughtworks.springbootemployee.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 public class EmployeeRequest {
     private String name;
     private Integer age;
     private String gender;
     private Integer salary;
-    private Integer companyId;
+    private Integer company_id;
 
     public EmployeeRequest() {
     }
 
-    public EmployeeRequest(String name, int age, String gender, int salary, int companyId) {
+    public EmployeeRequest(String name, Integer age, String gender, Integer salary, Integer company_id) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
-        this.companyId = companyId;
+        this.company_id = company_id;
     }
 
     public String getName() {
@@ -37,7 +34,7 @@ public class EmployeeRequest {
         return salary;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
+    public Integer getCompany_id() {
+        return company_id;
     }
 }

@@ -9,22 +9,22 @@ public class EmployeeResponse {
     private Integer age;
     private String gender;
     private Integer salary;
-    private Integer companyId;
+    private Integer company_id;
 
     public EmployeeResponse() {
     }
 
-    public EmployeeResponse(Integer id, String name, int age, String gender, int salary, int companyId) {
+    public EmployeeResponse(Integer id, String name, Integer age, String gender, Integer salary, Integer company_id) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
-        this.companyId = companyId;
+        this.company_id = company_id;
     }
 
-    public void setId(Integer employeeId) {
-        this.id = employeeId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -43,7 +43,7 @@ public class EmployeeResponse {
         this.salary = salary;
     }
 
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
+    public void setCompany_id(Integer company_id) {
+        this.company_id = company_id;
     }
 }
