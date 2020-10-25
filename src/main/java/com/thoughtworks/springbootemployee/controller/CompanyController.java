@@ -46,7 +46,7 @@ public class CompanyController {
 
     @DeleteMapping("/{companyId}")
     public Company removeCompanyEmployees(@PathVariable Integer companyId) {
-        return companyService.remove(companyId);
+        return companyService.deleteById(companyId);
     }
 
     @GetMapping(params = {"page", "pageSize"})

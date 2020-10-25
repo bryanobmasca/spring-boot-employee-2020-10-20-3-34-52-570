@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 public class Employee {
@@ -14,6 +15,7 @@ public class Employee {
     private Integer age;
     private String gender;
     private Integer salary;
+    private Integer companyId;
 
     public Employee() {
     }
@@ -31,6 +33,15 @@ public class Employee {
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+    }
+
+    public Employee(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+        this.companyId = companyId;
     }
 
     public Integer getId() {
@@ -71,5 +82,9 @@ public class Employee {
 
     public void setSalary(Integer salary) {
         this.salary = salary;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 }

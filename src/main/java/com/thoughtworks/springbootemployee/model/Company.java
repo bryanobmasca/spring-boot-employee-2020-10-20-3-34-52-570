@@ -55,4 +55,8 @@ public class Company {
     public void setId(Integer companyId) {
         this.companyId = companyId;
     }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }

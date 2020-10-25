@@ -5,6 +5,7 @@ import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
@@ -92,17 +93,19 @@ class CompanyServiceTest {
     void should_delete_company_when_delete_company_given_company_id() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        CompanyService service = new CompanyService(repository);
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        CompanyService service = new CompanyService(repository, employeeRepository);
+        Employee employee = new Employee(1, "Justine", 2, "Male", 2000, 1);
+        employeeRepository.save(employee);
         Company company = new Company(1, "Alibaba",
-                asList(new Employee(), new Employee()));
+                asList(employee));
         Integer companyId = company.getCompanyId();
-        repository.deleteById(companyId);
+        when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
         //when
-        Company actualCompany = service.remove(companyId);
+        Company actualCompany = service.deleteById(companyId);
 
         //then
-        Mockito.verify(repository, Mockito.times(1)).deleteById(companyId);
-        assertEquals(null, actualCompany);
+        assertEquals(null, actualCompany.getEmployees());
     }
 
     @Test
@@ -178,6 +181,22 @@ class CompanyServiceTest {
         when(repository.save(updatedCompany)).thenReturn(updatedCompany);
         //when
         Executable executable = () -> companyService.getById(updatedCompanyId);
+        //then
+        Exception exception = assertThrows(CompanyNotFoundException.class,executable);
+        assertEquals("Company Id not found", exception.getMessage());
+    }
+
+    @Test
+    public void should_throw_exception_when_remove_given_wrong_id() {
+        //given
+        CompanyRepository repository = Mockito.mock(CompanyRepository.class);
+        CompanyService companyService = new CompanyService(repository);
+        Company company = new Company(1, "Alibaba",
+                asList(new Employee(), new Employee()));
+        Integer companyId = company.getCompanyId();
+        repository.deleteById(companyId);
+        //when
+        Executable executable = () -> companyService.deleteById(companyId);
         //then
         Exception exception = assertThrows(CompanyNotFoundException.class,executable);
         assertEquals("Company Id not found", exception.getMessage());
