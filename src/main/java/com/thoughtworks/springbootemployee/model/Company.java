@@ -1,12 +1,6 @@
 package com.thoughtworks.springbootemployee.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,9 +10,9 @@ public class Company {
     private Integer companyId;
     private String companyName;
     @OneToMany(
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY, cascade = CascadeType.PERSIST
     )
-    @JoinColumn(columnDefinition = "company_id")
+    @JoinColumn(name = "company_id")
     private List<Employee> employees;
 
     public Company(Integer companyId, String companyName, List<Employee> employees) {
