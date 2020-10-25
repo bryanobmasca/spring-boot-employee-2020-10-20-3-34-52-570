@@ -46,7 +46,6 @@ public class CompanyIntegrationTest {
         //when then
         mockMvc.perform(get("/companies"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(company.getId()))
                 .andExpect(jsonPath("$[0].companyName").value(company.getCompanyName()))
                 .andExpect(jsonPath("$[0].employees").isEmpty());
     }
@@ -66,7 +65,6 @@ public class CompanyIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(stringAsJson))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.companyName").value("OOCL"))
                 .andExpect(jsonPath("$.employees").isNotEmpty())
                 .andExpect(jsonPath("$.employees[0].id").isNumber())
@@ -85,7 +83,6 @@ public class CompanyIntegrationTest {
         //when then
         mockMvc.perform(MockMvcRequestBuilders.put("/companies/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(company.getId()))
                 .andExpect(jsonPath("$[0].companyName").value(company.getCompanyName()))
                 .andExpect(jsonPath("$[0].employees").isEmpty());
     }
