@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Collections;
 
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -82,7 +81,7 @@ public class CompanyIntegrationTest {
     @Test
     public void should_return_company_when_get_given_company_id() throws Exception {
         //given
-        Company company = new Company(1,"OOCL", Collections.EMPTY_LIST);
+        Company company = new Company(1, "OOCL", Collections.EMPTY_LIST);
         companyRepository.save(company);
         //when then
         mockMvc.perform(MockMvcRequestBuilders.put("/companies/1"))
@@ -94,13 +93,32 @@ public class CompanyIntegrationTest {
     @Test
     public void should_throw_exception_when_get_given_not_existing_company_id() throws Exception {
         //given
-        Company company = new Company(1,"OOCL", Collections.EMPTY_LIST);
+        Company company = new Company(1, "OOCL", Collections.EMPTY_LIST);
         companyRepository.save(company);
         //when then
         mockMvc.perform(MockMvcRequestBuilders.get("/companies/2"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Company Id not found"))
                 .andExpect(jsonPath("$.status").value("404 NOT_FOUND"));
+    }
+
+
+    @Test
+    public void should_return_updated_company_when_put_given_company_id() throws Exception {
+        //given
+        Company company = new Company("OOCL", Collections.EMPTY_LIST);
+        Integer companyId = companyRepository.save(company).getId();
+
+        String stringAsJson = "{\n" +
+                "\"companyid\":1,\n" +
+                "\"companyName\" : \"wat\"\n" +
+                "}";
+        //when then
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/companies/", companyId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.companyId").isNumber())
+                .andExpect(jsonPath("$.companyName").value("wat"));
     }
 }
 
