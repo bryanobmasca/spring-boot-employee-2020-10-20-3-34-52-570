@@ -17,6 +17,7 @@ import java.util.Collections;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -110,15 +111,14 @@ public class CompanyIntegrationTest {
         Integer companyId = companyRepository.save(company).getId();
 
         String stringAsJson = "{\n" +
-                "\"companyid\":1,\n" +
-                "\"companyName\" : \"wat\"\n" +
+                "    \"companyName\" : \"A\"\n" +
                 "}";
         //when then
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/companies/", companyId))
+        mockMvc.perform(put("/companies/" + companyId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(stringAsJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyId").isNumber())
-                .andExpect(jsonPath("$.companyName").value("wat"));
+                .andExpect(jsonPath("$.companyName").value("A"));
     }
 }
 
