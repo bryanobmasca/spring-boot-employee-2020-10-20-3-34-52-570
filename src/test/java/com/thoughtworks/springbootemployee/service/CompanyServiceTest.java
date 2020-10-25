@@ -1,11 +1,9 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
-import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
@@ -42,7 +40,7 @@ class CompanyServiceTest {
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
         CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
-               asList(new Employee(), new Employee()));
+                asList(new Employee(), new Employee()));
         when(repository.save(company)).thenReturn(company);
 
         //when
@@ -93,16 +91,15 @@ class CompanyServiceTest {
     void should_delete_company_when_delete_company_given_company_id() {
         //given
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-        CompanyService service = new CompanyService(repository, employeeRepository);
+        CompanyService service = new CompanyService(repository);
         Employee employee = new Employee(1, "Justine", 2, "Male", 2000, 1);
-        employeeRepository.save(employee);
         Company company = new Company(1, "Alibaba",
                 asList(employee));
         Integer companyId = company.getId();
         when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
+        when(repository.save(company)).thenReturn(company);
         //when
-        Company actualCompany = service.deleteById(companyId);
+        Company actualCompany = service.remove(companyId);
 
         //then
         assertEquals(null, actualCompany.getEmployees());
@@ -115,9 +112,9 @@ class CompanyServiceTest {
         CompanyService service = new CompanyService(repository);
         List<Company> returnedCompanies = asList(
                 new Company(1, "Alibaba",
-                       asList(new Employee(), new Employee())),
+                        asList(new Employee(), new Employee())),
                 new Company(2, "Alibabas",
-                       asList(new Employee(), new Employee())));
+                        asList(new Employee(), new Employee())));
 
         Integer page = 1;
         Integer pageSize = 2;
@@ -162,7 +159,7 @@ class CompanyServiceTest {
         //when
         Executable executable = () -> companyService.getById(companyId);
         //then
-        Exception exception = assertThrows(CompanyNotFoundException.class,executable);
+        Exception exception = assertThrows(CompanyNotFoundException.class, executable);
         assertEquals("Company Id not found", exception.getMessage());
     }
 
@@ -182,7 +179,7 @@ class CompanyServiceTest {
         //when
         Executable executable = () -> companyService.getById(updatedCompanyId);
         //then
-        Exception exception = assertThrows(CompanyNotFoundException.class,executable);
+        Exception exception = assertThrows(CompanyNotFoundException.class, executable);
         assertEquals("Company Id not found", exception.getMessage());
     }
 
@@ -196,9 +193,9 @@ class CompanyServiceTest {
         Integer companyId = company.getId();
         repository.deleteById(companyId);
         //when
-        Executable executable = () -> companyService.deleteById(companyId);
+        Executable executable = () -> companyService.remove(companyId);
         //then
-        Exception exception = assertThrows(CompanyNotFoundException.class,executable);
+        Exception exception = assertThrows(CompanyNotFoundException.class, executable);
         assertEquals("Company Id not found", exception.getMessage());
     }
 }

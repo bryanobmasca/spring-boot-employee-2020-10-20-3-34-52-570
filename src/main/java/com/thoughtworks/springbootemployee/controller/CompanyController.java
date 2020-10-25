@@ -6,7 +6,6 @@ import com.thoughtworks.springbootemployee.service.CompanyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -46,7 +45,7 @@ public class CompanyController {
 
     @DeleteMapping("/{companyId}")
     public Company removeCompanyEmployees(@PathVariable Integer companyId) {
-        return companyService.deleteById(companyId);
+        return companyService.remove(companyId);
     }
 
     @GetMapping(params = {"page", "pageSize"})

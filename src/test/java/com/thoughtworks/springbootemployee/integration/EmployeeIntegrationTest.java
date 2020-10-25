@@ -11,7 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -86,7 +89,7 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_update_employee_when_update_given_employee() throws Exception {
         //given
-        Employee employee = new Employee(1,"Bryan", 2, "male", 20);
+        Employee employee = new Employee(1, "Bryan", 2, "male", 20);
         Employee createdEmployee = employeeRepository.save(employee);
         Integer employeeId = createdEmployee.getId();
         String updatedEmployee = "{\n" +
@@ -196,7 +199,7 @@ public class EmployeeIntegrationTest {
     void should_return_exception_message_when_get_given_not_existing_id() throws Exception {
         //given
         // when then
-        mockMvc.perform(get("/employees/1"))
+        mockMvc.perform(get("/employees/0"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Employee Id not found"))
                 .andExpect(jsonPath("$.status").value("404 NOT_FOUND"))
@@ -205,7 +208,7 @@ public class EmployeeIntegrationTest {
 
     @Test
     void should_return_exception_message_when_update_given_not_existing_id() throws Exception {
-        Employee employee = new Employee(1,"Bryan", 2, "male", 20);
+        Employee employee = new Employee(1, "Bryan", 2, "male", 20);
         employeeRepository.save(employee);
         String updatedEmployee = "{\n" +
                 "    \"id\" : 1,\n" +

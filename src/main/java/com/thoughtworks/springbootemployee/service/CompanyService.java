@@ -19,11 +19,6 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
 
-    public CompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository) {
-        this.companyRepository = companyRepository;
-        this.employeeRepository = employeeRepository;
-    }
-
     public List<Company> getAll() {
         return companyRepository.findAll();
     }
@@ -46,18 +41,15 @@ public class CompanyService {
         throw new CompanyNotFoundException("Company Id not found");
     }
 
-    public Company deleteById(Integer companyId) {
-        Company company = companyRepository.findById(companyId).orElse(null);
-        if (company != null) {
-            for (Employee employee : company.getEmployees()) {
-                employee.setCompany_id(null);
-                employeeRepository.save(employee);
-            }
-            company.setEmployees(null);
-            companyRepository.save(company);
-            return company;
-        }
-        throw new CompanyNotFoundException("Company Id not found");
+    public Company remove(Integer companyId) {
+        return companyRepository.findById(companyId)
+                .map(company -> {
+                    company.setEmployees(null);
+                    companyRepository.save(company);
+
+                    return company;
+                })
+                .orElseThrow(() -> new CompanyNotFoundException("Company Id not found"));
     }
 
     public List<Company> getByPage(Integer page, Integer pageSize) {
