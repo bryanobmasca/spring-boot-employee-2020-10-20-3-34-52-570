@@ -42,9 +42,9 @@ public class Company {
         return companyName;
     }
 
-    public Integer getEmployeesNumber() {
-        return getEmployees().size();
-    }
+//    public Integer getEmployeesNumber() {
+//        return getEmployees().size();
+//    }
 
     public List<Employee> getEmployees() {
         return employees;
