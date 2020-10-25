@@ -8,15 +8,17 @@ public class EmployeeRequest {
     private Integer age;
     private String gender;
     private Integer salary;
+    private Integer companyId;
 
     public EmployeeRequest() {
     }
 
-    public EmployeeRequest(String name, int age, String gender, int salary) {
+    public EmployeeRequest(String name, int age, String gender, int salary, int companyId) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+        this.companyId = companyId;
     }
 
     public String getName() {
@@ -33,5 +35,9 @@ public class EmployeeRequest {
 
     public Integer getSalary() {
         return salary;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
     }
 }
