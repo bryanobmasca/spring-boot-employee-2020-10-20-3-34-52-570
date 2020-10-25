@@ -34,12 +34,9 @@ public class CompanyService {
     }
 
     public Company update(Integer companyId, Company updatedCompany) {
-        Company company = companyRepository.findById(companyId).orElse(null);
-        if (company != null) {
-            updatedCompany.setId(companyId);
-            return companyRepository.save(updatedCompany);
-        }
-        throw new CompanyNotFoundException("Company Id not found");
+        return companyRepository.findById(companyId)
+                .map(company -> companyRepository.save(updatedCompany))
+                .orElseThrow(() -> new CompanyNotFoundException("Company Id not found"));
     }
 
     public Company remove(Integer companyId) {
