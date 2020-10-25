@@ -13,3 +13,4 @@ CREATE TABLE employee
     company_id bigint,
     FOREIGN KEY (company_id) REFERENCES company (id)
 );
+
