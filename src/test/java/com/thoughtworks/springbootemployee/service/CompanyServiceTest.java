@@ -5,7 +5,6 @@ import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
@@ -159,6 +158,26 @@ class CompanyServiceTest {
         when(repository.findById(companyId)).thenReturn(java.util.Optional.empty());
         //when
         Executable executable = () -> companyService.getById(companyId);
+        //then
+        Exception exception = assertThrows(CompanyNotFoundException.class,executable);
+        assertEquals("Company Id not found", exception.getMessage());
+    }
+
+    @Test
+    public void should_throw_exception_when_update_given_wrong_id() {
+        //given
+        CompanyRepository repository = Mockito.mock(CompanyRepository.class);
+        CompanyService companyService = new CompanyService(repository);
+        Company company = new Company(1, "Alibaba",
+                asList(new Employee(), new Employee()));
+        Company updatedCompany = new Company(2, "Alibabas",
+                asList(new Employee(), new Employee()));
+        Integer companyId = company.getCompanyId();
+        Integer updatedCompanyId = updatedCompany.getCompanyId();
+        when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
+        when(repository.save(updatedCompany)).thenReturn(updatedCompany);
+        //when
+        Executable executable = () -> companyService.getById(updatedCompanyId);
         //then
         Exception exception = assertThrows(CompanyNotFoundException.class,executable);
         assertEquals("Company Id not found", exception.getMessage());
