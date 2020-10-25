@@ -83,9 +83,9 @@ public class CompanyIntegrationTest {
     public void should_return_company_when_get_given_company_id() throws Exception {
         //given
         Company company = new Company(1, "OOCL", Collections.EMPTY_LIST);
-        companyRepository.save(company);
+        Integer companyId = companyRepository.save(company).getId();
         //when then
-        mockMvc.perform(MockMvcRequestBuilders.put("/companies/1"))
+        mockMvc.perform(get("/companies/", companyId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].companyName").value(company.getCompanyName()))
                 .andExpect(jsonPath("$[0].employees").isEmpty());
@@ -95,9 +95,9 @@ public class CompanyIntegrationTest {
     public void should_throw_exception_when_get_given_not_existing_company_id() throws Exception {
         //given
         Company company = new Company(1, "OOCL", Collections.EMPTY_LIST);
-        companyRepository.save(company);
+        Integer companyId = companyRepository.save(company).getId();
         //when then
-        mockMvc.perform(MockMvcRequestBuilders.get("/companies/2"))
+        mockMvc.perform(get("/companies/0"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Company Id not found"))
                 .andExpect(jsonPath("$.status").value("404 NOT_FOUND"));
@@ -119,6 +119,16 @@ public class CompanyIntegrationTest {
                 .content(stringAsJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyName").value("A"));
+    }
+
+    @Test
+    public void should_throw_exception_when_update_given_not_existing_company_id() throws Exception {
+        //given
+        Company company = new Company(1, "OOCL", Collections.EMPTY_LIST);
+        companyRepository.save(company);
+        //when then
+        mockMvc.perform(put("/companies/500"))
+                .andExpect(status().isBadRequest());
     }
 }
 
