@@ -49,7 +49,7 @@ class CompanyServiceTest {
         Company actual = service.create(company);
 
         //then
-        assertEquals(1, actual.getCompanyId());
+        assertEquals(1, actual.getId());
     }
 
     @Test
@@ -59,14 +59,14 @@ class CompanyServiceTest {
         CompanyService service = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
                 asList(new Employee(), new Employee()));
-        Integer companyId = company.getCompanyId();
+        Integer companyId = company.getId();
         when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
 
         //when
         Company actual = service.getById(companyId);
 
         //then
-        assertEquals(1, actual.getCompanyId());
+        assertEquals(1, actual.getId());
     }
 
     @Test
@@ -78,7 +78,7 @@ class CompanyServiceTest {
                 asList(new Employee(), new Employee()));
         Company updatedCompany = new Company(1, "Alibabas",
                 asList(new Employee(), new Employee()));
-        Integer companyId = company.getCompanyId();
+        Integer companyId = company.getId();
         when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
         when(repository.save(updatedCompany)).thenReturn(updatedCompany);
 
@@ -99,7 +99,7 @@ class CompanyServiceTest {
         employeeRepository.save(employee);
         Company company = new Company(1, "Alibaba",
                 asList(employee));
-        Integer companyId = company.getCompanyId();
+        Integer companyId = company.getId();
         when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
         //when
         Company actualCompany = service.deleteById(companyId);
@@ -141,7 +141,7 @@ class CompanyServiceTest {
         );
         Company company = new Company(1, "Alibaba",
                 employees);
-        Integer companyID = company.getCompanyId();
+        Integer companyID = company.getId();
 
         when(repository.findById(companyID)).thenReturn(java.util.Optional.of(company));
         //when
@@ -157,7 +157,7 @@ class CompanyServiceTest {
         CompanyService companyService = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
                 asList(new Employee(), new Employee()));
-        Integer companyId = company.getCompanyId();
+        Integer companyId = company.getId();
         when(repository.findById(companyId)).thenReturn(java.util.Optional.empty());
         //when
         Executable executable = () -> companyService.getById(companyId);
@@ -175,8 +175,8 @@ class CompanyServiceTest {
                 asList(new Employee(), new Employee()));
         Company updatedCompany = new Company(2, "Alibabas",
                 asList(new Employee(), new Employee()));
-        Integer companyId = company.getCompanyId();
-        Integer updatedCompanyId = updatedCompany.getCompanyId();
+        Integer companyId = company.getId();
+        Integer updatedCompanyId = updatedCompany.getId();
         when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
         when(repository.save(updatedCompany)).thenReturn(updatedCompany);
         //when
@@ -193,7 +193,7 @@ class CompanyServiceTest {
         CompanyService companyService = new CompanyService(repository);
         Company company = new Company(1, "Alibaba",
                 asList(new Employee(), new Employee()));
-        Integer companyId = company.getCompanyId();
+        Integer companyId = company.getId();
         repository.deleteById(companyId);
         //when
         Executable executable = () -> companyService.deleteById(companyId);

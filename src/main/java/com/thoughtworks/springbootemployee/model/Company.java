@@ -30,6 +30,10 @@ public class Company {
         this.employees = employees;
     }
 
+    public Company(String companyName) {
+        this.companyName = companyName;
+    }
+
     public Integer getId() {
         return id;
     }
