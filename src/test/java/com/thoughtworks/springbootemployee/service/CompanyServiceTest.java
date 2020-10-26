@@ -16,6 +16,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 class CompanyServiceTest {
@@ -102,7 +103,7 @@ class CompanyServiceTest {
         Company actualCompany = service.remove(companyId);
 
         //then
-        assertEquals(null, actualCompany.getEmployees());
+        assertTrue(actualCompany.getEmployees().isEmpty());
     }
 
     @Test
