@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class CompanyServiceTest {
@@ -77,9 +78,10 @@ class CompanyServiceTest {
                 asList(new Employee(), new Employee()));
         Company updatedCompany = new Company(1, "Alibabas",
                 asList(new Employee(), new Employee()));
+        when(repository.findById(company.getId())).thenReturn(java.util.Optional.of(company));
+        when(repository.save(any(Company.class))).thenReturn(company);
         Integer companyId = company.getId();
-        when(repository.findById(companyId)).thenReturn(java.util.Optional.of(company));
-        when(repository.save(updatedCompany)).thenReturn(updatedCompany);
+        updatedCompany.setId(companyId);
 
         //when
         Company actual = service.update(companyId, updatedCompany);
