@@ -12,7 +12,7 @@ public class Company {
     @OneToMany(
             fetch = FetchType.LAZY, cascade = CascadeType.PERSIST
     )
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "companyId")
     private List<Employee> employees;
 
     public Company(Integer id, String companyName, List<Employee> employees) {

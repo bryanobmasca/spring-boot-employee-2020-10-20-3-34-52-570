@@ -6,18 +6,18 @@ public class EmployeeResponse {
     private Integer age;
     private String gender;
     private Integer salary;
-    private Integer company_id;
+    private Integer companyId;
 
     public EmployeeResponse() {
     }
 
-    public EmployeeResponse(Integer id, String name, Integer age, String gender, Integer salary, Integer company_id) {
+    public EmployeeResponse(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
-        this.company_id = company_id;
+        this.companyId = companyId;
     }
 
     public void setId(Integer id) {
@@ -40,8 +40,8 @@ public class EmployeeResponse {
         this.salary = salary;
     }
 
-    public void setCompany_id(Integer company_id) {
-        this.company_id = company_id;
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     public Integer getId() {
@@ -64,7 +64,7 @@ public class EmployeeResponse {
         return salary;
     }
 
-    public Integer getCompany_id() {
-        return company_id;
+    public Integer getCompanyId() {
+        return companyId;
     }
 }
